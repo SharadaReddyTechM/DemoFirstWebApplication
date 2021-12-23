@@ -19,9 +19,7 @@ namespace DemoFirstWebApplication.Controllers
         [HttpGet]
         public ActionResult SignIn()
         {
-            //var user = new UserDetails{ Username = "sa", Password = "password@123" };
             var user = new UserDetails();
-
             return View(user);
         }
         [HttpPost]
@@ -65,15 +63,70 @@ namespace DemoFirstWebApplication.Controllers
             else
                 return View(userdetails);
         }
+        [HttpGet]
         public ActionResult Login()
         {
+            //tblUserDetail usr = new tblUserDetail();
+            LoginViewModel usr = new LoginViewModel();
+            return View(usr);
+        }
 
-            return Content("You have clicked Login option");
+        [HttpPost]
+        public ActionResult Login(LoginViewModel usr)
+        {
+            dbContextObj = new vizagdbEntities();
+            var usrFound = dbContextObj.tblUserDetails.FirstOrDefault(t => t.username == usr.username && t.password == usr.password && t.usertype == usr.usertype);
+            if (usrFound != null)
+            {
+                Session["username"] = usr.username;
+                Session["userType"] = usr.usertype;
+                //Session["un"] = usr.username;
+                //Session["ut"] = usr.usertype;
+                //reading values from the session variables
+                int usrtype = (int)Session["userType"];
+                switch (usrtype)
+                {
+                    case 1://Usertype =1 means the user Admin
+                        {
+                            return RedirectToAction("Index","Admin");
+                            //break;
+                        }
+                    case 2://Usertype =2 means the user Faculty
+                        {
+                            return RedirectToAction("Index","Faculty");
+                            //break;
+                        }
+                    case 3://Usertype =3 means the user Student
+                        {
+                            return RedirectToAction("Index","Student");
+                            //break;
+                        }
+                    default:
+                        return RedirectToAction("InvalidLogin");
+                        break;
+                }
+                
+            }
+            else
+            {
+                Session.Clear();
+                Session.Abandon();
+                //return Content("Invalid User Credentials, Please login again");
+                return RedirectToAction("InvalidLogin");
+            }
         }
 
         public ActionResult AdminHomePage()
         {
             return View();
+        }
+        public ActionResult InvalidLogin()
+        {
+            Session.Clear();
+            Session.Abandon();
+            ViewBag.ErrMsg = "Invalid User Credentials, Please login again";
+            return View();
+               
         }
     }
 }

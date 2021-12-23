@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace DemoFirstWebApplication.Controllers
 {
-    public class StudentController : Controller
+    public class AdminController : Controller
     {
-        // GET: Student
+        // GET: Admin
         public ActionResult Index()
         {
-            return Content("Welcome to Student Management Portal");
+            return View();
         }
     }
 }
