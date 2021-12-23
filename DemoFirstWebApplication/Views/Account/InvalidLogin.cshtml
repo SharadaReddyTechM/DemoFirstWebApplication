@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "InvalidLogin";
+}
+
+
+@{
+    var res = ViewBag.ErrMsg.ToString();
+    if (res != string.Empty)
+    {
+        <h2 style="color:red">@res</h2>
+    }
+}
+<br />
+<h4>
+    Please <a href="/Account/Login">Login</a> here
+</h4>
+

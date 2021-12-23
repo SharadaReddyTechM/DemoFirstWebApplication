@@ -2,11 +2,11 @@
 @{
     ViewBag.Title = "AdminHomePage";
 }
-@{ 
-    if(Session["user"].ToString()!=string.Empty&&Session["user"]!=null)
-            {
-    <h1> <span>Hello @Session["user"]</span></h1>
-            }
+@{
+    if (Session["username"].ToString() != string.Empty && Session["username"] != null)
+    {
+        <h1> <span style="color:green;font-weight:bold">Hello @Session["username"]</span></h1>
+    }
 }
 <h2>Welcome to Admin Homepage</h2>
 
