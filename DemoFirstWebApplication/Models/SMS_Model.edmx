@@ -4,7 +4,80 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="vizagdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="vizagdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Emp">
+          <Key>
+            <PropertyRef Name="empno" />
+          </Key>
+          <Property Name="empno" Type="int" Nullable="false" />
+          <Property Name="ename" Type="varchar" MaxLength="50" />
+          <Property Name="jcode" Type="int" />
+          <Property Name="mgrno" Type="int" />
+          <Property Name="hiredate" Type="date" />
+          <Property Name="salary" Type="int" />
+          <Property Name="commission" Type="float" />
+          <Property Name="DEPTNO" Type="int" />
+        </EntityType>
+        <EntityType Name="tblemployee">
+          <Key>
+            <PropertyRef Name="empid" />
+          </Key>
+          <Property Name="empid" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="empname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="empdob" Type="date" Nullable="false" />
+          <Property Name="empage" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="empmobile" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="empdept" Type="int" />
+          <Property Name="salary" Type="int" />
+          <Property Name="empgender" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="tblStudent">
+          <Key>
+            <PropertyRef Name="studId" />
+          </Key>
+          <Property Name="studId" Type="int" Nullable="false" />
+          <Property Name="studName" Type="varchar" MaxLength="50" />
+          <Property Name="studMobile" Type="varchar" MaxLength="10" />
+          <Property Name="studAge" Type="int" />
+          <Property Name="studGender" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="tblStudentDetails">
+          <Key>
+            <PropertyRef Name="studID" />
+          </Key>
+          <Property Name="studID" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="studname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="studAge" Type="int" />
+          <Property Name="studMobile" Type="varchar" MaxLength="10" />
+          <Property Name="studGender" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="studStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="tblStudentDetScores">
+          <Key>
+            <PropertyRef Name="slno" />
+          </Key>
+          <Property Name="slno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stid" Type="varchar" MaxLength="9" />
+          <Property Name="subject1" Type="int" />
+          <Property Name="subject2" Type="int" />
+          <Property Name="subject3" Type="int" />
+          <Property Name="subj1Attempts" Type="int" />
+          <Property Name="subj2Attempts" Type="int" />
+          <Property Name="subj3Attempts" Type="int" />
+        </EntityType>
+        <EntityType Name="tblStudentScores">
+          <Key>
+            <PropertyRef Name="slno" />
+          </Key>
+          <Property Name="slno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stid" Type="int" />
+          <Property Name="subject1" Type="int" />
+          <Property Name="subject2" Type="int" />
+          <Property Name="subject3" Type="int" />
+          <Property Name="subj1Attempts" Type="int" />
+          <Property Name="subj2Attempts" Type="int" />
+          <Property Name="subj3Attempts" Type="int" />
+        </EntityType>
         <EntityType Name="tblUserDetails">
           <Key>
             <PropertyRef Name="regno" />
@@ -25,6 +98,30 @@
           <Property Name="userDesp" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="userType" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="fkstid">
+          <End Role="tblStudent" Type="Self.tblStudent" Multiplicity="0..1" />
+          <End Role="tblStudentScores" Type="Self.tblStudentScores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudent">
+              <PropertyRef Name="studId" />
+            </Principal>
+            <Dependent Role="tblStudentScores">
+              <PropertyRef Name="stid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkstuid">
+          <End Role="tblStudentDetails" Type="Self.tblStudentDetails" Multiplicity="0..1" />
+          <End Role="tblStudentDetScores" Type="Self.tblStudentDetScores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudentDetails">
+              <PropertyRef Name="studID" />
+            </Principal>
+            <Dependent Role="tblStudentDetScores">
+              <PropertyRef Name="stid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fkusrtpe">
           <End Role="tblUserType" Type="Self.tblUserType" Multiplicity="0..1" />
           <End Role="tblUserDetails" Type="Self.tblUserDetails" Multiplicity="*" />
@@ -38,15 +135,28 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="vizagdbModelStoreContainer">
+          <EntitySet Name="tbl_Emp" EntityType="Self.tbl_Emp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblemployee" EntityType="Self.tblemployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudent" EntityType="Self.tblStudent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudentDetails" EntityType="Self.tblStudentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudentDetScores" EntityType="Self.tblStudentDetScores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStudentScores" EntityType="Self.tblStudentScores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserDetails" EntityType="Self.tblUserDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserType" EntityType="Self.tblUserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fkstid" Association="Self.fkstid">
+            <End Role="tblStudent" EntitySet="tblStudent" />
+            <End Role="tblStudentScores" EntitySet="tblStudentScores" />
+          </AssociationSet>
+          <AssociationSet Name="fkstuid" Association="Self.fkstuid">
+            <End Role="tblStudentDetails" EntitySet="tblStudentDetails" />
+            <End Role="tblStudentDetScores" EntitySet="tblStudentDetScores" />
+          </AssociationSet>
           <AssociationSet Name="fkusrtpe" Association="Self.fkusrtpe">
             <End Role="tblUserType" EntitySet="tblUserType" />
             <End Role="tblUserDetails" EntitySet="tblUserDetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="vizagdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -91,7 +201,122 @@
             <End Role="tblUserType" EntitySet="tblUserTypes" />
             <End Role="tblUserDetails" EntitySet="tblUserDetails" />
           </AssociationSet>
+          <EntitySet Name="tbl_Emp" EntityType="vizagdbModel.tbl_Emp" />
+          <EntitySet Name="tblemployees" EntityType="vizagdbModel.tblemployee" />
+          <EntitySet Name="tblStudents" EntityType="vizagdbModel.tblStudent" />
+          <EntitySet Name="tblStudentDetails" EntityType="vizagdbModel.tblStudentDetail" />
+          <EntitySet Name="tblStudentDetScores" EntityType="vizagdbModel.tblStudentDetScore" />
+          <EntitySet Name="tblStudentScores" EntityType="vizagdbModel.tblStudentScore" />
+          <AssociationSet Name="fkstid" Association="vizagdbModel.fkstid">
+            <End Role="tblStudent" EntitySet="tblStudents" />
+            <End Role="tblStudentScore" EntitySet="tblStudentScores" />
+          </AssociationSet>
+          <AssociationSet Name="fkstuid" Association="vizagdbModel.fkstuid">
+            <End Role="tblStudentDetail" EntitySet="tblStudentDetails" />
+            <End Role="tblStudentDetScore" EntitySet="tblStudentDetScores" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tbl_Emp">
+          <Key>
+            <PropertyRef Name="empno" />
+          </Key>
+          <Property Name="empno" Type="Int32" Nullable="false" />
+          <Property Name="ename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="jcode" Type="Int32" />
+          <Property Name="mgrno" Type="Int32" />
+          <Property Name="hiredate" Type="DateTime" Precision="0" />
+          <Property Name="salary" Type="Int32" />
+          <Property Name="commission" Type="Double" />
+          <Property Name="DEPTNO" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblemployee">
+          <Key>
+            <PropertyRef Name="empid" />
+          </Key>
+          <Property Name="empid" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="empname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="empdob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="empage" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="empmobile" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="empdept" Type="Int32" />
+          <Property Name="salary" Type="Int32" />
+          <Property Name="empgender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblStudent">
+          <Key>
+            <PropertyRef Name="studId" />
+          </Key>
+          <Property Name="studId" Type="Int32" Nullable="false" />
+          <Property Name="studName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="studMobile" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="studAge" Type="Int32" />
+          <Property Name="studGender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tblStudentScores" Relationship="vizagdbModel.fkstid" FromRole="tblStudent" ToRole="tblStudentScore" />
+        </EntityType>
+        <EntityType Name="tblStudentDetail">
+          <Key>
+            <PropertyRef Name="studID" />
+          </Key>
+          <Property Name="studID" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="studname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="studAge" Type="Int32" />
+          <Property Name="studMobile" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="studGender" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="studStatus" Type="Int32" />
+          <NavigationProperty Name="tblStudentDetScores" Relationship="vizagdbModel.fkstuid" FromRole="tblStudentDetail" ToRole="tblStudentDetScore" />
+        </EntityType>
+        <EntityType Name="tblStudentDetScore">
+          <Key>
+            <PropertyRef Name="slno" />
+          </Key>
+          <Property Name="slno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stid" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="subject1" Type="Int32" />
+          <Property Name="subject2" Type="Int32" />
+          <Property Name="subject3" Type="Int32" />
+          <Property Name="subj1Attempts" Type="Int32" />
+          <Property Name="subj2Attempts" Type="Int32" />
+          <Property Name="subj3Attempts" Type="Int32" />
+          <NavigationProperty Name="tblStudentDetail" Relationship="vizagdbModel.fkstuid" FromRole="tblStudentDetScore" ToRole="tblStudentDetail" />
+        </EntityType>
+        <EntityType Name="tblStudentScore">
+          <Key>
+            <PropertyRef Name="slno" />
+          </Key>
+          <Property Name="slno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stid" Type="Int32" />
+          <Property Name="subject1" Type="Int32" />
+          <Property Name="subject2" Type="Int32" />
+          <Property Name="subject3" Type="Int32" />
+          <Property Name="subj1Attempts" Type="Int32" />
+          <Property Name="subj2Attempts" Type="Int32" />
+          <Property Name="subj3Attempts" Type="Int32" />
+          <NavigationProperty Name="tblStudent" Relationship="vizagdbModel.fkstid" FromRole="tblStudentScore" ToRole="tblStudent" />
+        </EntityType>
+        <Association Name="fkstid">
+          <End Type="vizagdbModel.tblStudent" Role="tblStudent" Multiplicity="0..1" />
+          <End Type="vizagdbModel.tblStudentScore" Role="tblStudentScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudent">
+              <PropertyRef Name="studId" />
+            </Principal>
+            <Dependent Role="tblStudentScore">
+              <PropertyRef Name="stid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkstuid">
+          <End Type="vizagdbModel.tblStudentDetail" Role="tblStudentDetail" Multiplicity="0..1" />
+          <End Type="vizagdbModel.tblStudentDetScore" Role="tblStudentDetScore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStudentDetail">
+              <PropertyRef Name="studID" />
+            </Principal>
+            <Dependent Role="tblStudentDetScore">
+              <PropertyRef Name="stid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -117,6 +342,85 @@
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="userDesp" ColumnName="userDesp" />
                 <ScalarProperty Name="userType" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Emp">
+            <EntityTypeMapping TypeName="vizagdbModel.tbl_Emp">
+              <MappingFragment StoreEntitySet="tbl_Emp">
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+                <ScalarProperty Name="commission" ColumnName="commission" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="hiredate" ColumnName="hiredate" />
+                <ScalarProperty Name="mgrno" ColumnName="mgrno" />
+                <ScalarProperty Name="jcode" ColumnName="jcode" />
+                <ScalarProperty Name="ename" ColumnName="ename" />
+                <ScalarProperty Name="empno" ColumnName="empno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblemployees">
+            <EntityTypeMapping TypeName="vizagdbModel.tblemployee">
+              <MappingFragment StoreEntitySet="tblemployee">
+                <ScalarProperty Name="empgender" ColumnName="empgender" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="empdept" ColumnName="empdept" />
+                <ScalarProperty Name="empmobile" ColumnName="empmobile" />
+                <ScalarProperty Name="empage" ColumnName="empage" />
+                <ScalarProperty Name="empdob" ColumnName="empdob" />
+                <ScalarProperty Name="empname" ColumnName="empname" />
+                <ScalarProperty Name="empid" ColumnName="empid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudents">
+            <EntityTypeMapping TypeName="vizagdbModel.tblStudent">
+              <MappingFragment StoreEntitySet="tblStudent">
+                <ScalarProperty Name="studGender" ColumnName="studGender" />
+                <ScalarProperty Name="studAge" ColumnName="studAge" />
+                <ScalarProperty Name="studMobile" ColumnName="studMobile" />
+                <ScalarProperty Name="studName" ColumnName="studName" />
+                <ScalarProperty Name="studId" ColumnName="studId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudentDetails">
+            <EntityTypeMapping TypeName="vizagdbModel.tblStudentDetail">
+              <MappingFragment StoreEntitySet="tblStudentDetails">
+                <ScalarProperty Name="studStatus" ColumnName="studStatus" />
+                <ScalarProperty Name="studGender" ColumnName="studGender" />
+                <ScalarProperty Name="studMobile" ColumnName="studMobile" />
+                <ScalarProperty Name="studAge" ColumnName="studAge" />
+                <ScalarProperty Name="studname" ColumnName="studname" />
+                <ScalarProperty Name="studID" ColumnName="studID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudentDetScores">
+            <EntityTypeMapping TypeName="vizagdbModel.tblStudentDetScore">
+              <MappingFragment StoreEntitySet="tblStudentDetScores">
+                <ScalarProperty Name="subj3Attempts" ColumnName="subj3Attempts" />
+                <ScalarProperty Name="subj2Attempts" ColumnName="subj2Attempts" />
+                <ScalarProperty Name="subj1Attempts" ColumnName="subj1Attempts" />
+                <ScalarProperty Name="subject3" ColumnName="subject3" />
+                <ScalarProperty Name="subject2" ColumnName="subject2" />
+                <ScalarProperty Name="subject1" ColumnName="subject1" />
+                <ScalarProperty Name="stid" ColumnName="stid" />
+                <ScalarProperty Name="slno" ColumnName="slno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStudentScores">
+            <EntityTypeMapping TypeName="vizagdbModel.tblStudentScore">
+              <MappingFragment StoreEntitySet="tblStudentScores">
+                <ScalarProperty Name="subj3Attempts" ColumnName="subj3Attempts" />
+                <ScalarProperty Name="subj2Attempts" ColumnName="subj2Attempts" />
+                <ScalarProperty Name="subj1Attempts" ColumnName="subj1Attempts" />
+                <ScalarProperty Name="subject3" ColumnName="subject3" />
+                <ScalarProperty Name="subject2" ColumnName="subject2" />
+                <ScalarProperty Name="subject1" ColumnName="subject1" />
+                <ScalarProperty Name="stid" ColumnName="stid" />
+                <ScalarProperty Name="slno" ColumnName="slno" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

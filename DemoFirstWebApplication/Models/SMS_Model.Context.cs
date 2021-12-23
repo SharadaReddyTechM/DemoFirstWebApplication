@@ -27,5 +27,11 @@ namespace DemoFirstWebApplication.Models
     
         public virtual DbSet<tblUserDetail> tblUserDetails { get; set; }
         public virtual DbSet<tblUserType> tblUserTypes { get; set; }
+        public virtual DbSet<tbl_Emp> tbl_Emp { get; set; }
+        public virtual DbSet<tblemployee> tblemployees { get; set; }
+        public virtual DbSet<tblStudent> tblStudents { get; set; }
+        public virtual DbSet<tblStudentDetail> tblStudentDetails { get; set; }
+        public virtual DbSet<tblStudentDetScore> tblStudentDetScores { get; set; }
+        public virtual DbSet<tblStudentScore> tblStudentScores { get; set; }
     }
 }

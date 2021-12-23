@@ -12,16 +12,15 @@ namespace DemoFirstWebApplication.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUserDetail
+    public partial class tbl_Emp
     {
-        public int regno { get; set; }
-        public string fullname { get; set; }
-        public string email { get; set; }
-        public string mobile { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public Nullable<int> usertype { get; set; }
-    
-        public virtual tblUserType tblUserType { get; set; }
+        public int empno { get; set; }
+        public string ename { get; set; }
+        public Nullable<int> jcode { get; set; }
+        public Nullable<int> mgrno { get; set; }
+        public Nullable<System.DateTime> hiredate { get; set; }
+        public Nullable<int> salary { get; set; }
+        public Nullable<double> commission { get; set; }
+        public Nullable<int> DEPTNO { get; set; }
     }
 }

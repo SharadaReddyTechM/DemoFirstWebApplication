@@ -12,16 +12,17 @@ namespace DemoFirstWebApplication.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUserDetail
+    public partial class tblStudentDetScore
     {
-        public int regno { get; set; }
-        public string fullname { get; set; }
-        public string email { get; set; }
-        public string mobile { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public Nullable<int> usertype { get; set; }
+        public int slno { get; set; }
+        public string stid { get; set; }
+        public Nullable<int> subject1 { get; set; }
+        public Nullable<int> subject2 { get; set; }
+        public Nullable<int> subject3 { get; set; }
+        public Nullable<int> subj1Attempts { get; set; }
+        public Nullable<int> subj2Attempts { get; set; }
+        public Nullable<int> subj3Attempts { get; set; }
     
-        public virtual tblUserType tblUserType { get; set; }
+        public virtual tblStudentDetail tblStudentDetail { get; set; }
     }
 }
