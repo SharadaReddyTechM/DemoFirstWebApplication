@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@*<h3>Click here for <a href="/Faculty/Index/100">Faculty Portal</a></h3>
+    <h3>Click here for <a href="/Student/Index/100">Student Portal</a></h3>*@
+
+
+
+<h3>Click here for @Html.ActionLink("Faculty Portal","Index","Faculty")</h3>
+<h3>Click here for  @Html.ActionLink("Student Portal", "Index","Student")</h3>
