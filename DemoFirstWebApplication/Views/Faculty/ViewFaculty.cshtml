@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DemoFirstWebApplication.Models.tblemployee>
+
+@{
+    ViewBag.Title = "ViewFaculty";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>ViewFaculty</h2>
+@{ List<SelectListItem> lstEmployees = new List<SelectListItem>();}
+@foreach (var item in Model)
+{
+
+    lstEmployees.Add(new SelectListItem { Text = item.empname, Value = item.empid });
+}
+<div class="container">
+   Select Employee Id:
+    @Html.DropDownList("employeeid", lstEmployees, "--select Employee ID")
+    @*@Html.DropDownListFor(model => model.empid,lstEmpId,"--select Employee ID")*@
+    @Html.ActionLink("View Employee", "ShowFaculty",new { id = "e101" })
+</div>
+

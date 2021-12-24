@@ -1,0 +1,61 @@
+﻿@model IEnumerable<DemoFirstWebApplication.Models.tblemployee>
+
+@{
+    //Layout = "~/Views/Shared/FacultyLayout.cshtml";
+    ViewBag.Title = "AllFaculties";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.empname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empdob)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empmobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empdept)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.salary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empgender)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.empname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.empdob)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.empage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.empmobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.empdept)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.empgender)
+            </td>
+           
+        </tr>
+    }
+</table>
