@@ -13,5 +13,9 @@ namespace DemoFirstWebApplication.Controllers
         {
             return View();
         }
+        public ActionResult AdminDashboard()
+        {
+            return View();
+        }
     }
 }

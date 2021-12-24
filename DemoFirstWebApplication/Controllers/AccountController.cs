@@ -88,7 +88,7 @@ namespace DemoFirstWebApplication.Controllers
                 {
                     case 1://Usertype =1 means the user Admin
                         {
-                            return RedirectToAction("Index","Admin");
+                            return RedirectToAction("Home","Admin");
                             //break;
                         }
                     case 2://Usertype =2 means the user Faculty

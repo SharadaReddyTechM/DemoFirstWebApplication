@@ -10,8 +10,13 @@ namespace DemoFirstWebApplication.Controllers
     public class FacultyController : Controller
     {
         vizagdbEntities dbContextObj = null;
+        public ActionResult Home()
+        {
+            return View();
+        }
+
         // GET: Faculty
-        public ActionResult Index()
+        public ActionResult AllFaculties()
         {
             #region Complex code for user session activeness and as well user type who logged in
             //if (Session["username"].ToString() != string.Empty && Session["userType"].ToString() != null && (int)Session["userType"] == 1)
@@ -27,46 +32,62 @@ namespace DemoFirstWebApplication.Controllers
             //    return RedirectToAction("InvalidLogin", "Account");
             //}
             #endregion
-            if (Session["username"].ToString() != string.Empty && Session["userType"].ToString() != null)
-            {
-                if ((int)Session["userType"] == 1)
-                {
+            //if (Session["username"].ToString() != string.Empty && Session["userType"].ToString() != null)
+            //{
+            //    if ((int)Session["userType"] == 1)
+            //    {
                     //return Content("Welcome " + Session["username"] + " to Faculty Management Portal" + "<br/>You have logged in as Admin");
                     dbContextObj = new vizagdbEntities();
                     var emps = dbContextObj.tblemployees.ToList();
                     return View(emps);
-                }
-                else if (Session["username"].ToString() != string.Empty && Session["userType"].ToString() != null && (int)Session["userType"] == 2)
-                {
-                    return Content("Welcome " + Session["username"] + " to Faculty Management Portal" + "<br/>You have logged in as Faculty");
-                }
-                else
-                {
-                    return RedirectToAction("InvalidLogin", "Account");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            //    }
+            //    else if (Session["username"].ToString() != string.Empty && Session["userType"].ToString() != null && (int)Session["userType"] == 2)
+            //    {
+            //        return Content("Welcome " + Session["username"] + " to Faculty Management Portal" + "<br/>You have logged in as Faculty");
+            //    }
+            //    else
+            //    {
+            //        return RedirectToAction("InvalidLogin", "Account");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
 
         }
 
         // GET: Faculty/Details/5
-        public ActionResult Details(string id)
+        public ActionResult ViewFaculty()
         {
-            return View();
+            dbContextObj = new vizagdbEntities();
+
+            return View(dbContextObj.tblemployees.ToList());
+        }
+
+        public ActionResult ShowFaculty(string id)
+        {
+            dbContextObj = new vizagdbEntities();
+            var emp = dbContextObj.tblemployees.FirstOrDefault(e => e.empid == id);
+            if (emp != null)
+            {
+                return View(emp);
+            }
+
+            else
+                return Content("No such employee exists with given Employee Id");
         }
 
         // GET: Faculty/Create
-        public ActionResult Create()
+        public ActionResult AddFaculty()
         {
-            return View();
+            tblemployee emp = new tblemployee();
+            return View(emp);
         }
 
         // POST: Faculty/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult AddFaculty(tblemployee emp)
         {
             try
             {
@@ -81,14 +102,15 @@ namespace DemoFirstWebApplication.Controllers
         }
 
         // GET: Faculty/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult ModifyFaculty(string id)
         {
-            return View();
+            tblemployee emp = new tblemployee();
+            return View(emp);
         }
 
         // POST: Faculty/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult ModifyFaculty(string id, tblemployee emp)
         {
             try
             {
@@ -103,14 +125,15 @@ namespace DemoFirstWebApplication.Controllers
         }
 
         // GET: Faculty/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult DeleteFaculty(string id)
         {
-            return View();
+            tblemployee emp = new tblemployee();
+            return View(emp);
         }
 
         // POST: Faculty/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, FormCollection collection)
+        public ActionResult DeleteFaculty(string id, tblemployee emp)
         {
             try
             {
